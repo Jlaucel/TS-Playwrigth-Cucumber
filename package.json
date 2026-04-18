@@ -1,0 +1,21 @@
+{
+  "name": "playwright-cucumber-allure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx bddgen && npx playwright test",
+    "report": "allure serve allure-results"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0",
+    "allure-commandline": "^2.38.1",
+    "allure-playwright": "^3.7.1",
+    "playwright-bdd": "^8.5.0",
+    "typescript": "^6.0.3"
+  }
+}
