@@ -2,7 +2,7 @@ name: QA · Validación
 on:
   pull_request:
   push:
-    branches: [development]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
