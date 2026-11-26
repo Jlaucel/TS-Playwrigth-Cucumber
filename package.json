@@ -4,13 +4,17 @@
   "main": "index.js",
   "scripts": {
     "test": "npx bddgen && npx playwright test",
-    "report": "allure serve allure-results"
+    "report": "allure serve allure-results",
+    "qa:check": "node scripts/qa/check.mjs",
+    "qa:triage": "node scripts/qa/triage.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@cucumber/gherkin": "32.2.0",
+    "@cucumber/messages": "27.2.0",
     "@playwright/test": "^1.59.1",
     "@types/node": "^25.6.0",
     "allure-commandline": "^2.38.1",
