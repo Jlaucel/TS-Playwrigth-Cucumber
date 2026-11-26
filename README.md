@@ -44,3 +44,7 @@ npx playwright install
   npm run report
   ```
   *Esto procesará los archivos de `allure-results` y abrirá tu navegador con el reporte detallado.*
+
+## Automatización asistida por IA
+
+La [guía de pruebas](docs/qa.md) reúne las prácticas ISTQB de diseño y gestión de riesgos, las skills de Codex y los hooks para orientar el diagnóstico. Ejecuta `npm run qa:check` para validar Gherkin y trazabilidad o `npm run qa:triage` después de una ejecución con resultados Allure.
