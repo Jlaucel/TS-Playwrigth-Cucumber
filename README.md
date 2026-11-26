@@ -1,54 +1,59 @@
-# Playwright + Cucumber + Allure Reports
+![Playwright QA Automation. Un escenario genera pruebas de navegador que producen capturas y video.](docs/assets/readme-cover.webp)
 
-This project is a modern, robust End-to-End (E2E) testing automation framework built around **Playwright**, integrated with **Cucumber** for Behavior-Driven Development (BDD), and utilizing **Allure** for advanced test reporting. The framework is written in **TypeScript** and leverages `playwright-bdd` for native integration with the Playwright test runner.
+# Playwright + Cucumber + Allure
 
-## Advantages of this Tech Stack
+Pruebas web E2E en TypeScript con `playwright-bdd`. Los escenarios Gherkin se convierten en pruebas nativas de Playwright y sus resultados se reportan en Allure.
 
-Combining these specific technologies creates a highly efficient, scalable, and maintainable testing environment. Here is why they work so well together:
+[Inicio rápido](#inicio-rápido) · [Flujo de prueba](#flujo-de-prueba) · [QA asistido por IA](#qa-asistido-por-ia) · [GitHub Actions](https://github.com/Jlaucel/TS-Playwrigth-Cucumber/actions/workflows/qa.yml)
 
-**1. Playwright (The Core E2E Engine)**
-*   **Advantage:** Playwright is designed for modern web testing. It offers native multi-browser support (Chromium, Firefox, WebKit), auto-waiting, and runs out-of-process, which completely eliminates the flakiness found in traditional WebDriver tools. It also handles multiple contexts and tabs flawlessly.
+## Qué incluye
 
-**2. Cucumber / Gherkin (Behavior-Driven Development)**
-*   **Advantage:** Test scenarios are written in plain-text Gherkin syntax (`.feature` files) using Given/When/Then steps.
-*   **Business Alignment:** This serves as "living documentation" that is easily readable by non-technical stakeholders (Product Managers, Business Analysts, QA, and Developers), bridging the communication gap between business requirements and technical implementation.
+- **Generación BDD.** `bddgen` traduce los archivos `.feature` a pruebas para Playwright Test.
+- **Ejecución headless.** El ejemplo usa Chromium con la configuración del repositorio.
+- **Evidencia.** Se generan capturas y se conserva el video cuando una prueba falla.
 
-**3. playwright-bdd (Native Integration)**
-*   **Advantage:** Instead of using external test runners, `playwright-bdd` generates native Playwright tests from Cucumber feature files. This means we get all the benefits of Cucumber while retaining Playwright's native features like parallel execution, tracing, automatic screenshots, and video recording on failure without complex configurations.
+## Inicio rápido
 
-**4. TypeScript (Type Safety & Developer Experience)**
-*   **Advantage:** Writing the step definitions and Playwright configurations in TypeScript catches errors at compile-time rather than run-time. It provides excellent IDE support (like rich autocomplete and inline documentation), making the test codebase easier to refactor and scale securely as the project grows.
+Usa Node.js 24. Para abrir el reporte Allure, instala Java y configura `JAVA_HOME`.
 
-**5. Allure Report (Advanced Test Reporting)**
-*   **Advantage:** Standard console outputs can be hard to interpret. `allure-playwright` generates highly visual, detailed, and interactive HTML reports.
-*   **Visibility:** It provides a clear dashboard showing test pass rates, execution times, and historical trends. When a test fails, Allure automatically attaches Playwright's screenshots and videos directly to the specific failed step in the report, making debugging significantly easier.
-
-## Instalación
-
-Las dependencias pueden ser instaladas usando npm:
 ```bash
-npm install
-npx playwright install
+npm ci
+npx playwright install chromium
+npm run qa:check
+npm test
 ```
 
-## Ejecución
+`npm test` genera los casos y ejecuta Playwright. Puedes enumerarlos con `npx bddgen` seguido de `npx playwright test --list`. Usa `npm run report` para abrir Allure.
 
-- **Ejecutar pruebas:**
-  ```bash
-  npm test
-  ```
-  *Esto primero generará los tests nativos desde los archivos `.feature` y luego los ejecutará usando Playwright.*
+## Flujo de prueba
 
-- **Ver el Reporte de Allure:**
-  ```bash
-  npm run report
-  ```
-  *Esto procesará los archivos de `allure-results` y abrirá tu navegador con el reporte detallado.*
+```mermaid
+flowchart LR
+    feature["Gherkin"] --> steps["bddgen"] --> runner["Playwright Test"] --> evidence["Allure"]
+```
 
-## Automatización asistida por IA
+El escenario `QA-PWA-001` comprueba la pantalla de tráfico inusual de Google. Tiene la etiqueta `@external` porque esa respuesta depende del servicio. CI valida Gherkin y enumera las pruebas generadas. [Ver los escenarios](features/google_search.feature)
 
-La [guía de pruebas](docs/qa.md) reúne las prácticas ISTQB de diseño y gestión de riesgos, las skills de Codex y los hooks para orientar el diagnóstico. Ejecuta `npm run qa:check` para validar Gherkin y trazabilidad o `npm run qa:triage` después de una ejecución con resultados Allure.
+| Ruta | Contenido |
+| --- | --- |
+| [`features/`](features/) | Escenarios Gherkin. |
+| [`steps/`](steps/) | Definiciones de pasos en TypeScript. |
+| [`playwright.config.ts`](playwright.config.ts) | Generación BDD, ejecución de navegador y reportes. |
 
-## Conexiones con herramientas de QA
+## QA asistido por IA
 
-La [guía de conexiones](docs/integraciones-qa.md) explica cómo configurar Figma, Jira, Zephyr y Slack desde tu cliente de IA y cómo usar la skill de QA del repositorio para relacionar requisitos, pruebas y evidencias.
+| Skill de Codex | Cuándo usarla |
+| --- | --- |
+| [`$qa-design`](.agents/skills/qa-design/SKILL.md) | Diseñar escenarios BDD según criterios de aceptación y riesgo. |
+| [`$qa-triage`](.agents/skills/qa-triage/SKILL.md) | Preparar un diagnóstico con los resultados y la evidencia de una ejecución. |
+| [`$qa-integrations`](.agents/skills/qa-integrations/SKILL.md) | Relacionar diseños, criterios y casos con sus pruebas. |
+
+`npm run qa:triage` resume los resultados Allure después de una ejecución. Los hooks de Codex orientan el flujo de diseño y diagnóstico. [Guía ISTQB y hooks](docs/qa.md)
+
+Configura **Figma, Jira, Zephyr y Slack** en tu cliente local con acceso autorizado. [Guía de conexiones](docs/integraciones-qa.md)
+
+---
+
+**Colección QA Automation de Yunior Laucel**
+
+[Cypress](https://github.com/Jlaucel/TS--Cypress-Cucumber) · **Playwright** · [WebdriverIO](https://github.com/Jlaucel/TS-WebdriverIO-Cucumber) · [Maestro](https://github.com/Jlaucel/TS-Maestro-Cucumber) · [yuniorlaucel.com](https://yuniorlaucel.com)
